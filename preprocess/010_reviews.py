@@ -5,9 +5,9 @@ from nltk.tokenize import *
 stemmer=nltk.stem.PorterStemmer()
 stems = nltk.probability.FreqDist()
 corpus=[]
-with open("../processed/train_revie_stemmed.csv","wb") as fo:
+with open("../processed/test_review_stemmed.csv","wb") as fo:
 	fow=csv.writer(fo)
-	with open("../raw/yelp_academic_dataset_review.csv","rb") as f:
+	with open("../raw/yelp_test_set_review.csv","rb") as f:
 		fr=csv.reader(f)
 		fr.next()
 		for i in fr:
