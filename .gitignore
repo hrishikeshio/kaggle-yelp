@@ -1,4 +1,5 @@
 backup/
 raw/
 processed/
+data/
 .Rproj.user
