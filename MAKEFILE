@@ -1,19 +1,31 @@
 # Tokenize
-# python preprocess/010_reviews.py raw/yelp_test_set_review.csv data/test_review_stemmed.csv
-# python preprocess/010_reviews.py raw/yelp_academic_dataset_review.csv data/train_review_stemmed.csv 
+all: prediction
 
-#Combine files
-rm data/combined.csv
-cat data/train_review_stemmed.csv data/train_review_stemmed.csv > data/combined.csv
+prediction: vw_files
+	#Train vw
+	vw -d data/train.vw -c -f model --passes 20
+	vw -t -d data/test.vw -c -i model -p data/p2.txt
 
-#Convert to vw
-python preprocess/2vw.py data/combined.csv data/combined.vw
+vw_files: combine_data 
+	#Split 
+	split -l 229907 data/combined.vw 
+	mv xaa data/train.vw
+	mv xab data/test.vw
 
-#Split 
-split -l 229907 data/combined.vw 
+combine_data: preprocessed_data
+	cat data/train_review_stemmed.csv data/train_review_stemmed.csv > data/combined.csv
+	python preprocess/2vw.py data/combined.csv data/combined.vw
 
-mv data/xaa data/train.vw
-mv data/xab data/test.vw
-#Train vw
-vw -d data/train.vw -c -f model --passes 20
-vw -t -d data/test.vw -c -i model -p data/p2.txt
+preprocessed_data: 
+	python preprocess/010_reviews.py raw/yelp_test_set_review.csv data/test_review_stemmed.csv
+	python preprocess/010_reviews.py raw/yelp_academic_dataset_review.csv data/train_review_stemmed.csv 
+
+clean:
+	rm data/combined.csv
+	rm data/test_review_stemmed.csv
+	rm data/train_review_stemmed.csv
+	rm model
+
+
+
+
