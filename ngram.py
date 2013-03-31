@@ -12,7 +12,7 @@ import ml_metrics
 
 select = SelectPercentile(score_func=chi2, percentile=18)
 clf = LogisticRegression(tol=1e-8, penalty='l2', C=7)
-countvect_char = TfidfVectorizer(ngram_range=(1, 5), analyzer="word", binary=False,use_idf=True)
+countvect_char = TfidfVectorizer(ngram_range=(1, 5), analyzer="word", binary=False, use_idf=True)
 ft = FeatureUnion([("chars", countvect_char) ])
 char_model = Pipeline([('vect', ft), ('select', select), ('logr', clf)])
 
@@ -26,15 +26,20 @@ with open("data/train_review.csv") as fi:
 		X_train.append(i[4])
 		y_train.append(int(i[9]))
 print "Train Data read."
-X_train_s=X_train[:2000]
-y_train_s=y_train[:2000]
-X_test_s=X_train[2000:3000]
-y_test_s=y_train[2000:3000]
+upto=1000
+upto2=1500
+X_train_s=X_train[:upto]
+y_train_s=y_train[:upto]
+X_test_s=X_train[upto:upto2]
+y_test_s=y_train[upto:upto2]
 
 X_train=[]
 y_train=[]
-char_model.fit(X_train_s,y_train_s)
+#char_model.fit(X_train_s,y_train_s)
 print "training done"
+print countvect_char.fit_transform(X_train_s)
+#print countvect_char
+
 X_train=[]
 y_train=[]
 
