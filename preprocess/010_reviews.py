@@ -5,6 +5,7 @@ import nltk
 import csv
 import sys
 from nltk.tokenize import *
+from nltk.corpus import stopwords
 stemmer=nltk.stem.PorterStemmer()
 stems = nltk.probability.FreqDist()
 corpus=[]
@@ -31,6 +32,8 @@ with open(output_file,"wb") as fo:
 			review= WhitespaceTokenizer().tokenize(review)
 			review_stem=""
 			for word in review:
+				if word.lower() in stopwords.words("english"):
+					continue
 				review_stem+=(stemmer.stem_word(word.lower()))+" "
 			fow.writerow(i[:4]+[review_stem]+i[5:]+[0,0,0])
 
