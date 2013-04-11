@@ -1,7 +1,10 @@
 # Tokenize
-all: data/p2.txt
+all: predictions/p2.txt
 
-stanford: data/train_review_stemmed.tsv
+stanford: data/test_review_stemmed.tsv
+
+
+
 
 # Csv to tsv
 data/test_review_stemmed.tsv: data/test_review_stemmed.csv
@@ -31,12 +34,12 @@ data/test_review_stemmed.csv:
 	python preprocess/010_reviews.py raw/yelp_training_set_review.csv data/train_review_stemmed.csv 
 # clean
 clean:
-	rm data/combined.csv
 	rm data/test_review_stemmed.csv
 	rm data/train_review_stemmed.csv
+	rm data/combined.csv
 	rm model
 	rm data/train_review_stemmed.tsv
 	rm data/test_review_stemmed.tsv
-	rm data/train.vw
-	rm data/test.vw
+	rm data/*.vw
+	rm data/*.cache
 
